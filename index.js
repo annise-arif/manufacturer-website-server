@@ -63,7 +63,12 @@ async function run(){
       const result = await cursore.toArray();
       res.send(result);
     });
-    
+    app.post('/reviews', async(req, res) =>{
+      const order = req.body;
+      const result = await reviewsCollection.insertOne(order);
+      res.send(result);
+    });
+
   }
   catch{
 
