@@ -22,6 +22,7 @@ async function run(){
     await client.connect();
     const serviceCollection = client.db("hammer-drill-station").collection("services");
     const orderCollection = client.db("hammer-drill-station").collection("orders");
+    const reviewsCollection = client.db("hammer-drill-station").collection("reviews");
     
     app.get('/services', async(req, res) =>{
       const query = {};
@@ -49,12 +50,20 @@ async function run(){
       res.send(result);
     });
    
-    // app.delete('/myorders/:id', async(req, res) =>{
-    //   const id = req.params.id;
-    //   const filter = {id: ObjectId(_id)};
-    //   const result = await orderCollection.deleteOne(filter);
-    //   res.send(result);
-    // })
+    app.delete('/myorders/:id', async(req, res) =>{
+      const id = req.params.id;
+      const filter = {_id: ObjectId(id)};
+      const result = await orderCollection.deleteOne(filter);
+      res.send(result);
+    });
+
+    app.get('/reviews', async(req, res) =>{
+      const query = {};
+      const cursore = reviewsCollection.find(query);
+      const result = await cursore.toArray();
+      res.send(result);
+    });
+    
   }
   catch{
 
