@@ -47,7 +47,14 @@ async function run(){
       const cursore = orderCollection.find(query);
       const result = await cursore.toArray();
       res.send(result);
-    })
+    });
+   
+    // app.delete('/myorders/:id', async(req, res) =>{
+    //   const id = req.params.id;
+    //   const filter = {id: ObjectId(_id)};
+    //   const result = await orderCollection.deleteOne(filter);
+    //   res.send(result);
+    // })
   }
   catch{
 
