@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 require("dotenv").config();
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const query = require("express/lib/middleware/query");
 const port = process.env.PORT || 5000;
 
 
@@ -67,6 +68,10 @@ async function run(){
     app.post('/reviews', async(req, res) =>{
       const order = req.body;
       const result = await reviewsCollection.insertOne(order);
+      res.send(result);
+    });
+    app.get("/allusers", async(req, res) =>{
+      const result = await userCollection.find().toArray();
       res.send(result);
     });
     app.put("/user/:email", async (req, res) => {
