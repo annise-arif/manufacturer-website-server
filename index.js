@@ -91,7 +91,9 @@ async function run(){
     });
     app.put("/user/admin/:email", async (req, res) => {
       const email = req.params.email;
-      const filter = { email: email };
+      const requesterAccount = await userCollection.findOne({email: email});
+      if(requesterAccount){
+        const filter = { email: email };
       const updatedDoc = {
         $set: {role: 'admin'},
       };
@@ -100,6 +102,10 @@ async function run(){
         updatedDoc
       );
       res.send(result);
+      }
+      else{
+        res.status(403).send({message: 'Forbidden access'});
+      }
     });
 
   }
