@@ -89,6 +89,18 @@ async function run(){
       );
       res.send({ result });
     });
+    app.put("/user/admin/:email", async (req, res) => {
+      const email = req.params.email;
+      const filter = { email: email };
+      const updatedDoc = {
+        $set: {role: 'admin'},
+      };
+      const result = await userCollection.updateOne(
+        filter,
+        updatedDoc
+      );
+      res.send(result);
+    });
 
   }
   catch{
