@@ -23,6 +23,7 @@ async function run(){
     const serviceCollection = client.db("hammer-drill-station").collection("services");
     const orderCollection = client.db("hammer-drill-station").collection("orders");
     const reviewsCollection = client.db("hammer-drill-station").collection("reviews");
+    const userCollection = client.db("hammer-drill-station").collection("users");
     
     app.get('/services', async(req, res) =>{
       const query = {};
@@ -67,6 +68,21 @@ async function run(){
       const order = req.body;
       const result = await reviewsCollection.insertOne(order);
       res.send(result);
+    });
+    app.put("/user/:email", async (req, res) => {
+      const email = req.params.email;
+      const user = req.body;
+      const filter = { email: email };
+      const options = { upsert: true };
+      const updatedDoc = {
+        $set: user,
+      };
+      const result = await userCollection.updateOne(
+        filter,
+        updatedDoc,
+        options
+      );
+      res.send({ result });
     });
 
   }
