@@ -89,11 +89,17 @@ async function run(){
       );
       res.send({ result });
     });
+    app.get('/admin/:email', async(req, res) =>{
+      const email = req.params.email;
+      const user = await userCollection.findOne({email: email});
+      const isAdmin = user.role === 'admin';
+      res.send({admin: isAdmin});
+    });
     app.put("/user/admin/:email", async (req, res) => {
       const email = req.params.email;
       const requesterAccount = await userCollection.findOne({email: email});
-      if(requesterAccount){
-        const filter = { email: email };
+      
+        const filter = { email };
       const updatedDoc = {
         $set: {role: 'admin'},
       };
@@ -102,10 +108,7 @@ async function run(){
         updatedDoc
       );
       res.send(result);
-      }
-      else{
-        res.status(403).send({message: 'Forbidden access'});
-      }
+      
     });
 
   }
