@@ -118,6 +118,12 @@ async function run(){
       const result = await orderCollection.find().toArray();
       res.send(result);
     });
+    app.delete('/manageallorders/:id', async(req, res) =>{
+      const id = req.params.id;
+      const filter = {_id: ObjectId(id)};
+      const result = await orderCollection.deleteOne(filter);
+      res.send(result);
+    });
     app.delete('/manageproduct/:id', async(req, res) =>{
       const id = req.params.id;
       const filter = {_id: ObjectId(id)};
