@@ -110,6 +110,25 @@ async function run(){
       res.send(result);
       
     });
+    app.get('/manageproducts', async(req, res) =>{
+      const result = await serviceCollection.find().toArray();
+      res.send(result);
+    });
+    app.get('/manageallorders', async(req, res) =>{
+      const result = await orderCollection.find().toArray();
+      res.send(result);
+    });
+    app.delete('/manageproduct/:id', async(req, res) =>{
+      const id = req.params.id;
+      const filter = {_id: ObjectId(id)};
+      const result = await serviceCollection.deleteOne(filter);
+      res.send(result);
+    });
+    app.post('/addaproduct', async(req, res) =>{
+      const product = req.body;
+      const result = await serviceCollection.insertOne(product);
+      res.send(result);
+    });
 
   }
   catch{
