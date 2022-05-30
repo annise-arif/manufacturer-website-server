@@ -110,6 +110,16 @@ async function run() {
       res.status(500).send(error);
     }
   });
+  app.delete("/removeuser/:id", async (req, res) => {
+    try {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      const result = await userCollection.deleteOne(filter);
+      res.send(result);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  });
   app.put("/user/:email", async (req, res) => {
     try {
       const email = req.params.email;
@@ -142,7 +152,7 @@ async function run() {
   app.put("/user/admin/:email", async (req, res) => {
     try {
       const email = req.params.email;
-      const filter = { email };
+      const filter = { email: email };
       const updatedDoc = {
         $set: { role: "admin" },
       };
